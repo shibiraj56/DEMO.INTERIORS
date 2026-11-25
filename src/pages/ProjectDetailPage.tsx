@@ -28,6 +28,7 @@ export function ProjectDetailPage() {
     title: `${project.title} | ARADHANA INTERIOR Concept Portfolio`,
     description: project.summary,
     path: `/projects/${project.slug}`,
+    noIndex: true,
   });
 
   return (

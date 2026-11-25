@@ -5,7 +5,12 @@ import type { SeoMeta } from '../types';
 /**
  * Updates document title, meta description, Open Graph tags, and canonical URL on route navigation.
  */
-export function useDocumentMeta({ title, description, path = '/' }: SeoMeta & { path?: string }) {
+export function useDocumentMeta({
+  title,
+  description,
+  path = '/',
+  noIndex = false,
+}: SeoMeta & { path?: string; noIndex?: boolean }) {
   useEffect(() => {
     document.title = title;
 
@@ -22,6 +27,7 @@ export function useDocumentMeta({ title, description, path = '/' }: SeoMeta & { 
     };
 
     setMeta('meta[name="description"]', 'name', 'description', description);
+    setMeta('meta[name="robots"]', 'name', 'robots', noIndex ? 'noindex, follow' : 'index, follow');
     setMeta('meta[property="og:title"]', 'property', 'og:title', title);
     setMeta('meta[property="og:description"]', 'property', 'og:description', description);
     setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalHref);
@@ -33,5 +39,5 @@ export function useDocumentMeta({ title, description, path = '/' }: SeoMeta & { 
       document.head.appendChild(canonical);
     }
     canonical.setAttribute('href', canonicalHref);
-  }, [title, description, path]);
+  }, [title, description, path, noIndex]);
 }

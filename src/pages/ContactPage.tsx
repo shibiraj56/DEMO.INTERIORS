@@ -1,5 +1,5 @@
 import { AlertCircle, CheckCircle2, Clock, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { PageHeader } from '../components/common/PageHeader';
 import { SITE_CONFIG } from '../config/site';
 import { BRAND, CORE_SERVICES } from '../data/brand';
@@ -29,6 +29,7 @@ export function ContactPage() {
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'demo-validated' | 'sent' | 'error'>('idle');
+  const submittingRef = useRef(false);
 
   useDocumentMeta({
     title: 'Contact & Consultation | ARADHANA INTERIOR — Tamil Nadu',
@@ -42,12 +43,18 @@ export function ContactPage() {
     if (data.name.trim().length < 2) {
       nextErrors.name = 'Please enter your full name (at least 2 characters).';
     }
-    const digits = data.phone.replace(/\D/g, '');
-    if (digits.length < 10) {
-      nextErrors.phone = 'Please enter a valid 10-digit phone or WhatsApp number.';
+    const normalizedPhone = data.phone.replace(/[\s\-()]/g, '');
+    if (!/^(\+?91)?[6-9]\d{9}$/.test(normalizedPhone)) {
+      nextErrors.phone = 'Please enter a valid 10-digit Indian mobile number (starting with 6–9).';
     }
     if (data.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
       nextErrors.email = 'Please enter a valid email address or leave blank.';
+    }
+    if (!data.city.trim()) {
+      nextErrors.city = 'Please select a Tamil Nadu city.';
+    }
+    if (!data.service.trim()) {
+      nextErrors.service = 'Please select an interior service.';
     }
     if (data.message.trim().length < 10) {
       nextErrors.message = 'Please describe your interior scope (at least 10 characters).';
@@ -57,6 +64,8 @@ export function ContactPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submittingRef.current) return;
+
     const validationErrors = validate(values);
     setErrors(validationErrors);
 
@@ -70,6 +79,7 @@ export function ContactPage() {
     }
 
     try {
+      submittingRef.current = true;
       setStatus('submitting');
       const res = await fetch(SITE_CONFIG.formEndpoint, {
         method: 'POST',
@@ -81,6 +91,8 @@ export function ContactPage() {
       setValues(INITIAL_VALUES);
     } catch {
       setStatus('error');
+    } finally {
+      submittingRef.current = false;
     }
   };
 
