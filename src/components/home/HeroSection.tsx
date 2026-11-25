@@ -1,14 +1,10 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowUpRight, Compass } from 'lucide-react';
-import { lazy, Suspense, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import heroLivingImg from '../../assets/images/hero-living.jpg';
 import { BRAND } from '../../data/brand';
-
-const HeroBrassAccent3D = lazy(() =>
-  import('./HeroBrassAccent3D').then((m) => ({ default: m.HeroBrassAccent3D }))
-);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -142,16 +138,6 @@ export function HeroSection() {
                 {BRAND.serviceCities.slice(0, 8).join(' · ')} &amp; more
               </p>
             </div>
-          </div>
-
-          {/* 3D Brass & Silver Spatial Accent */}
-          <div className="hero-reveal hidden lg:flex flex-col items-center">
-            <Suspense fallback={<div className="hidden lg:block h-64 w-64 xl:h-72 xl:w-72" />}>
-              <HeroBrassAccent3D />
-            </Suspense>
-            <span className="mt-2 text-[10px] font-medium uppercase tracking-[0.26em] text-charcoal/70 bg-ivory/80 px-3 py-1 border border-silver/50 backdrop-blur-sm">
-              3D Spatial Precision
-            </span>
           </div>
         </div>
       </div>
