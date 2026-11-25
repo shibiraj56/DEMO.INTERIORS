@@ -33,63 +33,70 @@ export function ServicesPage() {
       />
 
       <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-10">
           {/* Category Filter Bar */}
-          <div
-            role="tablist"
-            aria-label="Filter services by category"
-            className="flex flex-wrap items-center gap-2.5 border-b border-silver/50 pb-6"
-          >
-            {SERVICE_CATEGORIES.map((category) => {
-              const isSelected = activeCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  role="tab"
-                  aria-selected={isSelected}
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] transition-colors ${
-                    isSelected
-                      ? 'bg-charcoal text-ivory'
-                      : 'border border-silver/70 bg-ivory text-charcoal/80 hover:border-gold hover:text-charcoal'
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
+          <div className="flex flex-col justify-between gap-4 border-b border-silver/50 pb-6 sm:flex-row sm:items-center">
+            <div
+              role="tablist"
+              aria-label="Filter services by category"
+              className="flex flex-wrap items-center gap-2.5"
+            >
+              {SERVICE_CATEGORIES.map((category) => {
+                const isSelected = activeCategory === category;
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] transition-colors ${
+                      isSelected
+                        ? 'bg-charcoal text-ivory'
+                        : 'border border-silver/70 bg-ivory text-charcoal/80 hover:border-gold hover:text-charcoal'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="text-xs uppercase tracking-[0.16em] text-charcoal/65">
+              Showing {filteredServices.length}{' '}
+              {filteredServices.length === 1 ? 'Discipline' : 'Disciplines'}
+            </p>
           </div>
 
-          {/* Rich Service Cards */}
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Editorial 2-Column Architectural Service Spreads */}
+          <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-2">
             {filteredServices.map((service) => (
               <article
                 key={service.id}
-                className="group flex flex-col justify-between border border-silver/60 bg-ivory transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_14px_34px_rgba(36,36,36,0.06)]"
+                className="group flex flex-col justify-between border-b border-silver/60 pb-10"
               >
                 <div>
-                  <div className="relative aspect-[16/10] overflow-hidden bg-beige">
+                  <div className="relative aspect-[16/10] overflow-hidden border border-silver/60 bg-beige">
                     <img
                       src={service.image}
                       alt={service.imageAlt}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <span className="absolute top-3 left-3 bg-ivory/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-dark backdrop-blur-sm">
+                    <span className="absolute top-3.5 left-3.5 bg-ivory/94 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-dark backdrop-blur-sm">
                       {service.number} · {service.category}
                     </span>
                   </div>
 
-                  <div className="p-7">
-                    <h2 className="font-serif text-2xl font-medium text-charcoal transition-colors group-hover:text-gold-dark">
+                  <div className="mt-6">
+                    <h2 className="font-serif text-3xl font-medium text-charcoal transition-colors group-hover:text-gold-dark">
                       {service.title}
                     </h2>
-                    <p className="mt-3 text-sm leading-relaxed text-charcoal/80">
+                    <p className="mt-3 text-sm leading-relaxed text-charcoal/80 sm:text-base">
                       {service.fullDescription}
                     </p>
 
-                    <ul className="mt-5 space-y-2 border-t border-silver/40 pt-4">
+                    <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 border-t border-silver/40 pt-4">
                       {service.highlights.map((hl) => (
                         <li
                           key={hl}
@@ -103,10 +110,10 @@ export function ServicesPage() {
                   </div>
                 </div>
 
-                <div className="border-t border-silver/40 px-7 py-4">
+                <div className="mt-6 pt-2">
                   <Link
                     to="/contact"
-                    className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:text-gold-dark"
+                    className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:text-gold-dark"
                   >
                     <span>Book Service Consultation</span>
                     <ArrowUpRight className="h-3.5 w-3.5 text-gold-dark" aria-hidden="true" />

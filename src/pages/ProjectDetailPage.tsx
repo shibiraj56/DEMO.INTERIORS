@@ -40,7 +40,7 @@ export function ProjectDetailPage() {
       />
 
       <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8 space-y-14">
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-10 space-y-14">
           {/* Interactive Editorial Image Stage */}
           <div className="space-y-4">
             <div className="relative overflow-hidden border border-silver/60 bg-beige">

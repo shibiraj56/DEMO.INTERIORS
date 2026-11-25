@@ -17,7 +17,7 @@
   /* Layout & Rhythm */
   --nav-height: 5rem;
   --announcement-height: 2.5rem;
-  --container-max: 84rem;
+  --container-max: 88rem;
 
   /* Motion */
   --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);

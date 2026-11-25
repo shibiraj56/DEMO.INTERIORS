@@ -96,7 +96,7 @@ export function GalleryPage() {
       />
 
       <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-10">
           {/* Category Filter Tabs */}
           <div
             role="tablist"
@@ -127,43 +127,47 @@ export function GalleryPage() {
             })}
           </div>
 
-          {/* Editorial Gallery Grid */}
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredItems.map((item, idx) => (
-              <figure
-                key={item.id}
-                className="group flex flex-col border border-silver/60 bg-ivory transition-all duration-300 hover:border-gold hover:shadow-[0_12px_32px_rgba(36,36,36,0.06)]"
-              >
-                <button
-                  type="button"
-                  onClick={() => setLightboxIndex(idx)}
-                  aria-label={`View full screen: ${item.title}`}
-                  className="relative aspect-[16/10] w-full overflow-hidden bg-beige text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          {/* Editorial Masonry-Inspired Grid */}
+          <div className="mt-14 columns-1 gap-8 space-y-8 sm:columns-2 lg:columns-3">
+            {filteredItems.map((item, idx) => {
+              const aspectClass =
+                idx % 3 === 0 ? 'aspect-[4/3]' : idx % 3 === 1 ? 'aspect-[16/10]' : 'aspect-[4/4]';
+              return (
+                <figure
+                  key={item.id}
+                  className="group break-inside-avoid border-b border-silver/60 pb-6"
                 >
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <span className="absolute right-3 bottom-3 inline-flex h-9 w-9 items-center justify-center bg-ivory/90 text-charcoal opacity-90 transition-all group-hover:bg-gold group-hover:text-ivory">
-                    <Maximize2 className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setLightboxIndex(idx)}
+                    aria-label={`View full screen: ${item.title}`}
+                    className={`relative ${aspectClass} w-full overflow-hidden border border-silver/60 bg-beige text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-gold`}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <span className="absolute right-3 bottom-3 inline-flex h-9 w-9 items-center justify-center bg-ivory/92 text-charcoal transition-colors group-hover:bg-gold group-hover:text-ivory">
+                      <Maximize2 className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                  </button>
 
-                <figcaption className="p-5">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
-                    {item.category} · {item.locationTag}
-                  </p>
-                  <h2 className="mt-1.5 font-serif text-xl font-medium text-charcoal">
-                    {item.title}
-                  </h2>
-                  <p className="mt-1.5 text-xs leading-relaxed text-charcoal/75">
-                    {item.caption}
-                  </p>
-                </figcaption>
-              </figure>
-            ))}
+                  <figcaption className="mt-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
+                      {item.category} · {item.locationTag}
+                    </p>
+                    <h2 className="mt-1.5 font-serif text-2xl font-medium text-charcoal">
+                      {item.title}
+                    </h2>
+                    <p className="mt-1.5 text-xs leading-relaxed text-charcoal/75">
+                      {item.caption}
+                    </p>
+                  </figcaption>
+                </figure>
+              );
+            })}
           </div>
         </div>
       </section>

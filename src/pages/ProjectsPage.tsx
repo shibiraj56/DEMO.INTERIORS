@@ -33,7 +33,7 @@ export function ProjectsPage() {
       />
 
       <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-10">
           {/* Interactive Category Filter */}
           <div className="flex flex-col justify-between gap-4 border-b border-silver/50 pb-6 sm:flex-row sm:items-center">
             <div
@@ -68,46 +68,50 @@ export function ProjectsPage() {
             </p>
           </div>
 
-          {/* Project Grid */}
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Large Editorial 2-Column Portfolio Plates */}
+          <div className="mt-14 grid grid-cols-1 gap-x-10 gap-y-16 md:grid-cols-2">
             {visibleProjects.map((project) => (
               <Link
                 key={project.slug}
                 to={`/projects/${project.slug}`}
-                className="group flex flex-col justify-between border border-silver/60 bg-ivory transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:shadow-[0_14px_34px_rgba(36,36,36,0.06)]"
+                className="group flex flex-col border-b border-silver/60 pb-8"
               >
-                <div>
-                  <div className="relative aspect-[16/10] overflow-hidden bg-beige">
-                    <img
-                      src={project.image}
-                      alt={project.imageAlt}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <span className="absolute top-3 left-3 bg-ivory/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-charcoal backdrop-blur-sm">
-                      Concept Demo
-                    </span>
-                  </div>
+                <div className="relative aspect-[16/10] overflow-hidden border border-silver/60 bg-beige">
+                  <img
+                    src={project.image}
+                    alt={project.imageAlt}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute top-4 left-4 bg-ivory/94 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-charcoal backdrop-blur-sm">
+                    Concept Demo
+                  </span>
+                </div>
 
-                  <div className="p-6">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
-                      {project.category} · {project.location}
-                    </span>
-                    <h2 className="mt-2 font-serif text-2xl font-medium text-charcoal transition-colors group-hover:text-gold-dark">
+                <div className="mt-6 flex flex-1 flex-col justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
+                      <span>
+                        {project.category} · {project.location}
+                      </span>
+                      <span className="text-charcoal/60">{project.areaSqFt}</span>
+                    </div>
+
+                    <h2 className="mt-2.5 font-serif text-3xl font-medium text-charcoal transition-colors group-hover:text-gold-dark">
                       {project.title}
                     </h2>
-                    <p className="mt-2 text-xs font-medium text-charcoal/65">
-                      {project.spaceType} · {project.areaSqFt}
+                    <p className="mt-1 text-xs font-medium text-charcoal/65">
+                      {project.spaceType}
                     </p>
                     <p className="mt-3 text-sm leading-relaxed text-charcoal/80">
                       {project.summary}
                     </p>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between border-t border-silver/40 px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal/80 group-hover:text-gold-dark">
-                  <span>View Concept Details</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  <div className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal/85 group-hover:text-gold-dark">
+                    <span>Explore Concept Study</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-gold-dark transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+                  </div>
                 </div>
               </Link>
             ))}

@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Award, Layers, ShieldCheck, Sliders } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { SectionHeading } from '../common/SectionHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +38,7 @@ const ADVANTAGES = [
 ];
 
 /**
- * Editorial Why Choose Us section highlighting design quality, customization, materials, and execution.
+ * Architectural 2x2 numbered manifesto for Why Choose Us.
  */
 export function WhyChooseUs() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -72,49 +73,49 @@ export function WhyChooseUs() {
     <section
       ref={sectionRef}
       aria-labelledby="why-choose-us-heading"
-      className="border-t border-silver/50 bg-ivory py-20 sm:py-28"
+      className="border-t border-silver/50 bg-beige-soft/45 py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.26em] text-gold-dark">
-            The ARADHANA Standard
-          </p>
-          <h2
-            id="why-choose-us-heading"
-            className="mt-3 font-serif text-3xl font-medium text-charcoal sm:text-4xl lg:text-5xl"
-          >
-            Why Discerning Homeowners Choose{' '}
-            <span className="italic text-gold-dark">ARADHANA INTERIOR</span>
-          </h2>
-        </div>
+      <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-10">
+        <SectionHeading
+          eyebrow="The ARADHANA Standard"
+          title={
+            <span id="why-choose-us-heading">
+              Why Discerning Homeowners Choose{' '}
+              <span className="italic font-normal text-gold-dark">
+                ARADHANA INTERIOR
+              </span>
+            </span>
+          }
+          align="left"
+        />
 
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {ADVANTAGES.map((item) => {
+        <div className="mt-14 grid grid-cols-1 border-t border-silver/60 md:grid-cols-2">
+          {ADVANTAGES.map((item, idx) => {
             const Icon = item.icon;
+            const isRightCol = idx % 2 === 1;
             return (
               <article
                 key={item.number}
-                className="why-card group flex flex-col justify-between border border-silver/60 bg-beige-soft/45 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold hover:bg-ivory hover:shadow-[0_12px_32px_rgba(36,36,36,0.05)]"
+                className={`why-card group border-b border-silver/60 py-9 sm:py-11 ${
+                  isRightCol ? 'md:border-l md:pl-10 lg:pl-14' : 'md:pr-10 lg:pr-14'
+                }`}
               >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center border border-gold/40 bg-ivory text-gold-dark transition-colors group-hover:bg-gold group-hover:text-ivory">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <span className="font-serif text-xl text-silver">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="font-serif text-2xl text-gold-dark">
                       {item.number}
                     </span>
+                    <span className="h-[1px] w-6 bg-silver" aria-hidden="true" />
+                    <Icon className="h-4 w-4 text-gold-dark" aria-hidden="true" />
                   </div>
-
-                  <h3 className="mt-6 font-serif text-2xl font-medium text-charcoal">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-charcoal/80">
-                    {item.description}
-                  </p>
                 </div>
 
-                <div className="mt-6 h-[1px] w-10 bg-gold/60 transition-all duration-300 group-hover:w-full" />
+                <h3 className="mt-5 font-serif text-2xl font-medium text-charcoal sm:text-3xl">
+                  {item.title}
+                </h3>
+                <p className="mt-3 max-w-lg text-sm leading-relaxed text-charcoal/80 sm:text-base">
+                  {item.description}
+                </p>
               </article>
             );
           })}
