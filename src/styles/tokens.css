@@ -1,0 +1,24 @@
+:root {
+  /* Official ARADHANA INTERIOR Colour Palette */
+  --color-ivory: #FAF9F6;
+  --color-gold: #C6A45A;
+  --color-gold-light: #D8BE82;
+  --color-gold-dark: #9E7E38;
+  --color-silver: #BFC3C7;
+  --color-charcoal: #242424;
+  --color-charcoal-muted: #525252;
+  --color-beige: #E8DFD0;
+  --color-beige-soft: #F4EFE6;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Layout & Rhythm */
+  --nav-height: 5rem;
+  --announcement-height: 2.5rem;
+  --container-max: 84rem;
+
+  /* Motion */
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+}

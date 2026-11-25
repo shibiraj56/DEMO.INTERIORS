@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-ivory: #FAF9F6;
+  --color-gold: #C6A45A;
+  --color-gold-light: #D8BE82;
+  --color-gold-dark: #9E7E38;
+  --color-silver: #BFC3C7;
+  --color-charcoal: #242424;
+  --color-charcoal-muted: #525252;
+  --color-beige: #E8DFD0;
+  --color-beige-soft: #F4EFE6;
+
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Subtle luxury hairline & gold underline utilities */
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #C6A45A 50%, transparent 100%);
+}
+
+.silver-border {
+  border-color: rgba(191, 195, 199, 0.55);
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF9F6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #BFC3C7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C6A45A;
+}
