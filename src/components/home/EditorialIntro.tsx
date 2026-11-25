@@ -33,17 +33,20 @@ export function EditorialIntro() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.intro-fade', {
-        y: 24,
+        y: 20,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.12,
+        duration: 0.7,
+        stagger: 0.1,
         ease: 'power2.out',
+        immediateRender: false,
+        clearProps: 'transform,opacity',
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 80%',
+          start: 'top 92%',
           once: true,
         },
       });
+      ScrollTrigger.refresh();
     }, containerRef);
     return () => ctx.revert();
   }, []);

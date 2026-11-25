@@ -70,7 +70,7 @@ export function HeroSection() {
 
         {/* Soft Ivory Editorial Gradient Overlay for high-contrast typography */}
         <div
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-ivory/95 via-ivory/82 to-ivory/25 sm:from-ivory/95 sm:via-ivory/75 sm:to-transparent"
+          className="absolute inset-0 -z-10 bg-ivory/88 sm:bg-transparent sm:bg-gradient-to-r sm:from-ivory/95 sm:via-ivory/78 sm:to-transparent"
           aria-hidden="true"
         />
         <div
