@@ -21,6 +21,10 @@ export function HeroSection() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       // Staggered editorial entrance
       gsap.from('.hero-reveal', {
@@ -64,6 +68,8 @@ export function HeroSection() {
             ref={bgRef}
             src={heroLivingImg}
             alt="Luxury contemporary Tamil Nadu living room designed with fluted teakwood, cream Italian marble, brass chandelier, and warm cove lighting"
+            fetchPriority="high"
+            decoding="async"
             className="h-full w-full object-cover object-center scale-[1.03]"
           />
         </div>

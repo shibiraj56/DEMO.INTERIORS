@@ -1,4 +1,5 @@
-import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ConsultationBanner } from '../components/common/ConsultationBanner';
 import { PageHeader } from '../components/common/PageHeader';
@@ -7,12 +8,26 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 export function ProjectDetailPage() {
   const { slug } = useParams();
-  const project =
-    CONCEPT_PROJECTS.find((p) => p.slug === slug) ?? CONCEPT_PROJECTS[0];
+  const currentIndex = Math.max(
+    0,
+    CONCEPT_PROJECTS.findIndex((p) => p.slug === slug)
+  );
+  const project = CONCEPT_PROJECTS[currentIndex];
+  const prevProject =
+    CONCEPT_PROJECTS[(currentIndex - 1 + CONCEPT_PROJECTS.length) % CONCEPT_PROJECTS.length];
+  const nextProject =
+    CONCEPT_PROJECTS[(currentIndex + 1) % CONCEPT_PROJECTS.length];
+
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0);
+  const activeMedia = project.galleryImages[selectedImageIdx] ?? {
+    src: project.image,
+    alt: project.imageAlt,
+  };
 
   useDocumentMeta({
     title: `${project.title} | ARADHANA INTERIOR Concept Portfolio`,
     description: project.summary,
+    path: `/projects/${project.slug}`,
   });
 
   return (
@@ -24,26 +39,61 @@ export function ProjectDetailPage() {
       />
 
       <section className="py-16 sm:py-24">
-        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Primary Visual */}
-          <div className="relative overflow-hidden border border-silver/60 bg-beige">
-            <img
-              src={project.image}
-              alt={project.imageAlt}
-              className="w-full max-h-[600px] object-cover"
-            />
-            <span className="absolute top-4 left-4 bg-ivory/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal">
-              Conceptual Demo Presentation
-            </span>
+        <div className="mx-auto max-w-[84rem] px-4 sm:px-6 lg:px-8 space-y-14">
+          {/* Interactive Editorial Image Stage */}
+          <div className="space-y-4">
+            <div className="relative overflow-hidden border border-silver/60 bg-beige">
+              <img
+                src={activeMedia.src}
+                alt={activeMedia.alt}
+                className="aspect-[16/9] max-h-[620px] w-full object-cover transition-opacity duration-300"
+              />
+              <span className="absolute top-4 left-4 bg-ivory/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal">
+                Concept Demo Presentation
+              </span>
+            </div>
+
+            {project.galleryImages.length > 1 && (
+              <div
+                role="group"
+                aria-label="Select concept view"
+                className="grid grid-cols-3 gap-3 sm:max-w-lg"
+              >
+                {project.galleryImages.map((img, i) => {
+                  const isActive = i === selectedImageIdx;
+                  return (
+                    <button
+                      key={`${project.slug}-thumb-${i}`}
+                      type="button"
+                      onClick={() => setSelectedImageIdx(i)}
+                      aria-label={`View ${img.alt}`}
+                      aria-pressed={isActive}
+                      className={`overflow-hidden border transition-all ${
+                        isActive
+                          ? 'border-gold ring-1 ring-gold'
+                          : 'border-silver/60 opacity-75 hover:opacity-100'
+                      }`}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        className="aspect-[16/10] w-full object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {/* Specifications Grid */}
+          {/* Editorial Specifications Grid */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-4 border border-silver/60 bg-beige-soft/50 p-7 space-y-4">
               <h2 className="font-serif text-2xl font-medium text-charcoal">
                 Concept Brief
               </h2>
-              <dl className="space-y-3 text-sm">
+              <dl className="space-y-3.5 text-sm">
                 <div>
                   <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-dark">
                     Location Context
@@ -87,47 +137,72 @@ export function ProjectDetailPage() {
 
             <div className="lg:col-span-4 border border-silver/60 bg-ivory p-7">
               <h2 className="font-serif text-2xl font-medium text-charcoal">
-                Material Palette
+                Materials &amp; Finishes
               </h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.materials.map((mat) => (
-                  <span
+              <p className="mt-2 text-xs text-charcoal/65">
+                Curated tactile finishes specified for this concept study:
+              </p>
+              <div className="mt-4 grid grid-cols-1 gap-2.5">
+                {project.materials.map((mat, idx) => (
+                  <div
                     key={mat}
-                    className="border border-silver/70 bg-beige-soft/60 px-3 py-1.5 text-xs font-medium text-charcoal"
+                    className="flex items-center justify-between border border-silver/60 bg-beige-soft/45 px-3.5 py-2.5 text-xs font-medium text-charcoal"
                   >
-                    {mat}
-                  </span>
+                    <span>{mat}</span>
+                    <span className="font-serif text-sm text-gold-dark">
+                      0{idx + 1}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Multi-View Concept Gallery */}
-          <div>
-            <h2 className="font-serif text-2xl font-medium text-charcoal sm:text-3xl">
-              Additional Interior Views
-            </h2>
-            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-              {project.galleryImages.map((img, i) => (
-                <div key={i} className="overflow-hidden border border-silver/60 bg-beige">
-                  <img
-                    src={img.src}
-                    alt={img.alt}
-                    loading="lazy"
-                    className="aspect-[16/10] w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Previous / Next Conceptual Project Navigation */}
+          <nav
+            aria-label="Conceptual project pagination"
+            className="grid grid-cols-1 gap-4 border-y border-silver/60 py-6 sm:grid-cols-2"
+          >
+            <Link
+              to={`/projects/${prevProject.slug}`}
+              onClick={() => setSelectedImageIdx(0)}
+              className="group flex items-center gap-4 border border-silver/50 bg-ivory p-5 transition-colors hover:border-gold"
+            >
+              <ArrowLeft className="h-4 w-4 shrink-0 text-gold-dark transition-transform group-hover:-translate-x-1" aria-hidden="true" />
+              <div>
+                <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal/60">
+                  Previous Concept
+                </span>
+                <span className="mt-1 block font-serif text-xl font-medium text-charcoal group-hover:text-gold-dark">
+                  {prevProject.title}
+                </span>
+              </div>
+            </Link>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-silver/50 pt-6">
+            <Link
+              to={`/projects/${nextProject.slug}`}
+              onClick={() => setSelectedImageIdx(0)}
+              className="group flex items-center justify-end gap-4 border border-silver/50 bg-ivory p-5 text-right transition-colors hover:border-gold"
+            >
+              <div>
+                <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal/60">
+                  Next Concept
+                </span>
+                <span className="mt-1 block font-serif text-xl font-medium text-charcoal group-hover:text-gold-dark">
+                  {nextProject.title}
+                </span>
+              </div>
+              <ArrowRight className="h-4 w-4 shrink-0 text-gold-dark transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            </Link>
+          </nav>
+
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <Link
               to="/projects"
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-charcoal hover:text-gold-dark"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              <span>Back to Portfolio</span>
+              <span>All Concept Projects</span>
             </Link>
             <Link
               to="/contact"

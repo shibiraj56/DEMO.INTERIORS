@@ -14,6 +14,7 @@ export function HomePage() {
       'ARADHANA INTERIOR | Elegance in Every Detail — Luxury Interior Designers in Tamil Nadu',
     description:
       'ARADHANA INTERIOR is a premier interior design company serving Chennai, Coimbatore, Tiruppur, Madurai, Trichy, and all of Tamil Nadu.',
+    path: '/',
   });
 
   return (

@@ -6,6 +6,7 @@ export function AboutPage() {
     title: 'About Us | ARADHANA INTERIOR — Tamil Nadu Interior Design Studio',
     description:
       'Discover the design philosophy, mission, and bespoke interior craftsmanship of ARADHANA INTERIOR across Tamil Nadu.',
+    path: '/about',
   });
 
   return (

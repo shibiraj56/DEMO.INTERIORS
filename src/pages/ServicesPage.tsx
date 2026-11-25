@@ -16,6 +16,7 @@ export function ServicesPage() {
     title: 'Interior Design Services | ARADHANA INTERIOR — Tamil Nadu',
     description:
       'Explore all 12 interior design services by ARADHANA INTERIOR: luxury residential interiors, modular kitchens, pooja rooms, false ceilings, offices, and 3D visualization.',
+    path: '/services',
   });
 
   const filteredServices =

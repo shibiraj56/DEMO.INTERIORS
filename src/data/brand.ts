@@ -1,3 +1,4 @@
+import { SITE_CONFIG } from '../config/site';
 import type { ServiceSummary } from '../types';
 
 export const BRAND = {
@@ -9,11 +10,11 @@ export const BRAND = {
   demoNotice:
     'Concept Demonstration Website — All visuals and testimonials are conceptual demo presentations.',
   contactPlaceholders: {
-    phone: '+91 [Studio Phone Placeholder]',
-    whatsapp: '+91 [WhatsApp Placeholder]',
-    email: 'studio@[aradhanainterior-placeholder].in',
-    address: '[Studio Address Placeholder], Tamil Nadu, India',
-    hours: 'Mon – Sat · 10:00 AM – 7:00 PM IST',
+    phone: SITE_CONFIG.contact.phone,
+    whatsapp: SITE_CONFIG.contact.whatsappDisplay,
+    email: SITE_CONFIG.contact.email,
+    address: SITE_CONFIG.contact.address,
+    hours: SITE_CONFIG.contact.hours,
   },
   serviceCities: [
     'Chennai',

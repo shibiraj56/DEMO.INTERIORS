@@ -17,6 +17,10 @@ export function ProcessTimelineSection({ compact = false }: ProcessTimelineSecti
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.from('.process-step-card', {
         y: 20,

@@ -23,6 +23,7 @@ export function GalleryPage() {
     title: 'Interior Gallery | ARADHANA INTERIOR — Tamil Nadu',
     description:
       'Visual gallery of Tamil Nadu luxury residential living rooms, modular kitchens, pooja rooms, bedrooms, wardrobes, and commercial interiors.',
+    path: '/gallery',
   });
 
   const filteredItems =

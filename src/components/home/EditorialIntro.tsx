@@ -31,6 +31,10 @@ export function EditorialIntro() {
   const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.from('.intro-fade', {
         y: 20,

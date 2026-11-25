@@ -33,6 +33,17 @@
   h1, h2, h3, h4, .font-editorial {
     font-family: var(--font-serif);
   }
+
+  :focus-visible {
+    outline: 2px solid #C6A45A;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
 
 /* Subtle luxury hairline & gold underline utilities */

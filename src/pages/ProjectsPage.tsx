@@ -16,6 +16,7 @@ export function ProjectsPage() {
     title: 'Portfolio & Concept Projects | ARADHANA INTERIOR',
     description:
       'Conceptual residential and commercial interior design portfolio tailored for Tamil Nadu homes and businesses.',
+    path: '/projects',
   });
 
   const visibleProjects =

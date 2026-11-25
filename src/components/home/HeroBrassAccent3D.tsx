@@ -1,6 +1,6 @@
 import { Float } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Suspense, useRef } from 'react';
+import { Suspense, useMemo, useRef } from 'react';
 import type { Group } from 'three';
 
 function BrassSculpture() {
@@ -50,9 +50,73 @@ function BrassSculpture() {
 }
 
 /**
- * Lightweight 3D brass-and-silver spatial accent for the hero composition.
+ * Graceful static architectural SVG fallback when WebGL is unavailable or reduced motion is preferred.
+ */
+export function StaticBrassAccentFallback() {
+  return (
+    <div
+      className="pointer-events-none hidden lg:flex h-64 w-64 xl:h-72 xl:w-72 items-center justify-center opacity-85"
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 220 220"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-52 w-52"
+      >
+        <ellipse
+          cx="110"
+          cy="110"
+          rx="86"
+          ry="42"
+          transform="rotate(-24 110 110)"
+          stroke="#C6A45A"
+          strokeWidth="2"
+        />
+        <ellipse
+          cx="110"
+          cy="110"
+          rx="68"
+          ry="34"
+          transform="rotate(34 110 110)"
+          stroke="#BFC3C7"
+          strokeWidth="1.5"
+        />
+        <polygon
+          points="110,76 138,110 110,144 82,110"
+          fill="#D8BE82"
+          fillOpacity="0.25"
+          stroke="#C6A45A"
+          strokeWidth="1.75"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function canUseInteractive3D(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  try {
+    const canvas = document.createElement('canvas');
+    return Boolean(
+      canvas.getContext('webgl2') || canvas.getContext('webgl')
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Lightweight 3D brass-and-silver spatial accent with WebGL & reduced-motion fallback.
  */
 export function HeroBrassAccent3D() {
+  const enable3D = useMemo(() => canUseInteractive3D(), []);
+
+  if (!enable3D) {
+    return <StaticBrassAccentFallback />;
+  }
+
   return (
     <div
       className="pointer-events-none hidden lg:block h-64 w-64 xl:h-72 xl:w-72 opacity-90"

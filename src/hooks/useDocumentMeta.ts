@@ -1,15 +1,37 @@
 import { useEffect } from 'react';
+import { SITE_CONFIG } from '../config/site';
 import type { SeoMeta } from '../types';
 
 /**
- * Updates document title and meta description on route navigation.
+ * Updates document title, meta description, Open Graph tags, and canonical URL on route navigation.
  */
-export function useDocumentMeta({ title, description }: SeoMeta) {
+export function useDocumentMeta({ title, description, path = '/' }: SeoMeta & { path?: string }) {
   useEffect(() => {
     document.title = title;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', description);
+
+    const canonicalHref = `${SITE_CONFIG.siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+
+    const setMeta = (selector: string, attr: 'name' | 'property', key: string, content: string) => {
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    setMeta('meta[name="description"]', 'name', 'description', description);
+    setMeta('meta[property="og:title"]', 'property', 'og:title', title);
+    setMeta('meta[property="og:description"]', 'property', 'og:description', description);
+    setMeta('meta[property="og:url"]', 'property', 'og:url', canonicalHref);
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
     }
-  }, [title, description]);
+    canonical.setAttribute('href', canonicalHref);
+  }, [title, description, path]);
 }

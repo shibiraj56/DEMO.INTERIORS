@@ -8,6 +8,7 @@ export function ProcessPage() {
     title: 'Our Design Process | ARADHANA INTERIOR — Tamil Nadu',
     description:
       'Seven-stage transparent interior design and turnkey execution workflow from consultation to final handover across Tamil Nadu.',
+    path: '/process',
   });
 
   return (

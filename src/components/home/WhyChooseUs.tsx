@@ -43,6 +43,10 @@ export function WhyChooseUs() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.from('.why-card', {
         y: 20,
