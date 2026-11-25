@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ConsultationBanner } from '../components/common/ConsultationBanner';
@@ -52,6 +52,32 @@ export function ProjectDetailPage() {
               <span className="absolute top-4 left-4 bg-ivory/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-charcoal">
                 Concept Demo Presentation
               </span>
+              {project.galleryImages.length > 1 && (
+                <div className="absolute right-4 bottom-4 flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="Previous concept image"
+                    onClick={() =>
+                      setSelectedImageIdx(
+                        (prev) => (prev - 1 + project.galleryImages.length) % project.galleryImages.length
+                      )
+                    }
+                    className="inline-flex h-10 w-10 items-center justify-center border border-silver/70 bg-ivory/92 text-charcoal transition-colors hover:border-gold hover:bg-gold hover:text-ivory"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Next concept image"
+                    onClick={() =>
+                      setSelectedImageIdx((prev) => (prev + 1) % project.galleryImages.length)
+                    }
+                    className="inline-flex h-10 w-10 items-center justify-center border border-silver/70 bg-ivory/92 text-charcoal transition-colors hover:border-gold hover:bg-gold hover:text-ivory"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {project.galleryImages.length > 1 && (
@@ -206,7 +232,7 @@ export function ProjectDetailPage() {
               <span>All Concept Projects</span>
             </Link>
             <Link
-              to="/contact"
+              to={`/contact?project=${encodeURIComponent(project.title)}`}
               className="inline-flex items-center gap-2 bg-charcoal px-6 py-3.5 text-xs font-medium uppercase tracking-[0.18em] text-ivory transition-colors hover:bg-gold hover:text-charcoal"
             >
               <span>Request Similar Interior Design</span>
@@ -216,7 +242,7 @@ export function ProjectDetailPage() {
         </div>
       </section>
 
-      <ConsultationBanner />
+      <ConsultationBanner enquiryProject={project.title} />
     </>
   );
 }

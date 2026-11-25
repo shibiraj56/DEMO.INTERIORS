@@ -14,3 +14,18 @@ export const SITE_CONFIG = {
   },
   formEndpoint: (import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined) || '',
 } as const;
+
+/**
+ * Returns a properly encoded WhatsApp enquiry URL only when a valid number (>= 10 digits) is configured.
+ * Returns null in demo mode when unconfigured so no misleading active contact button is shown.
+ */
+export function getWhatsAppUrl(customMessage?: string): string | null {
+  const digits = SITE_CONFIG.contact.whatsappNumber.replace(/\D/g, '');
+  if (digits.length < 10) {
+    return null;
+  }
+  const text =
+    customMessage?.trim() ||
+    'Hello ARADHANA INTERIOR, I would like to schedule an interior design consultation.';
+  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+}

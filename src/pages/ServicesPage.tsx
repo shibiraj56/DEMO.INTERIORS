@@ -1,6 +1,5 @@
 import { ArrowUpRight, Check } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ConsultationBanner } from '../components/common/ConsultationBanner';
 import { PageHeader } from '../components/common/PageHeader';
 import { DETAILED_SERVICES } from '../data/services';
@@ -10,7 +9,21 @@ const SERVICE_CATEGORIES = ['All', 'Residential', 'Commercial', 'Specialized'] a
 type ServiceFilter = (typeof SERVICE_CATEGORIES)[number];
 
 export function ServicesPage() {
-  const [activeCategory, setActiveCategory] = useState<ServiceFilter>('All');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const activeCategory: ServiceFilter = SERVICE_CATEGORIES.includes(
+    categoryParam as ServiceFilter
+  )
+    ? (categoryParam as ServiceFilter)
+    : 'All';
+
+  const setActiveCategory = (category: ServiceFilter) => {
+    if (category === 'All') {
+      setSearchParams({});
+    } else {
+      setSearchParams({ category });
+    }
+  };
 
   useDocumentMeta({
     title: 'Interior Design Services | ARADHANA INTERIOR — Tamil Nadu',
@@ -112,7 +125,7 @@ export function ServicesPage() {
 
                 <div className="mt-6 pt-2">
                   <Link
-                    to="/contact"
+                    to={`/contact?service=${encodeURIComponent(service.title)}`}
                     className="inline-flex items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:text-gold-dark"
                   >
                     <span>Book Service Consultation</span>

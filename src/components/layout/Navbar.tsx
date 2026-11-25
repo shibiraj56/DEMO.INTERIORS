@@ -10,22 +10,22 @@ const SERVICE_DROPDOWN_LINKS = [
   {
     label: 'Luxury Residential Interiors',
     subtitle: 'Villas, bungalows & apartments across Tamil Nadu',
-    path: '/services',
+    path: '/services?category=Residential',
   },
   {
     label: 'Modular Kitchen Design',
     subtitle: 'Ergonomic island & L-shaped Indian kitchens',
-    path: '/services',
+    path: '/services?category=Residential',
   },
   {
     label: 'Pooja Room Interiors',
     subtitle: 'Burma teakwood mandaps & brass accents',
-    path: '/services',
+    path: '/services?category=Specialized',
   },
   {
     label: 'Office & Commercial Interiors',
     subtitle: 'Executive suites, lounges & showrooms',
-    path: '/services',
+    path: '/services?category=Commercial',
   },
 ];
 

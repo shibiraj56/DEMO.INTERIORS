@@ -135,10 +135,10 @@ export function FeaturedServicesPreview() {
                   </ul>
 
                   <Link
-                    to="/contact"
+                    to={`/contact?service=${encodeURIComponent(activeService.title)}`}
                     className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold-dark hover:text-charcoal"
                   >
-                    <span>Enquire</span>
+                    <span>Enquire About {activeService.title}</span>
                     <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
                 </div>

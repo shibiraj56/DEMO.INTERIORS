@@ -1,7 +1,8 @@
 import { AlertCircle, CheckCircle2, Clock, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
 import { useRef, useState, type FormEvent } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { PageHeader } from '../components/common/PageHeader';
-import { SITE_CONFIG } from '../config/site';
+import { getWhatsAppUrl, SITE_CONFIG } from '../config/site';
 import { BRAND, CORE_SERVICES } from '../data/brand';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
@@ -26,7 +27,21 @@ const INITIAL_VALUES: FormValues = {
 };
 
 export function ContactPage() {
-  const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
+  const [searchParams] = useSearchParams();
+  const initialServiceParam = searchParams.get('service');
+  const initialProjectParam = searchParams.get('project');
+
+  const matchedService = CORE_SERVICES.find(
+    (s) => s.title.toLowerCase() === (initialServiceParam ?? '').toLowerCase()
+  )?.title;
+
+  const [values, setValues] = useState<FormValues>({
+    ...INITIAL_VALUES,
+    service: matchedService ?? INITIAL_VALUES.service,
+    message: initialProjectParam
+      ? `Interested in an interior design concept inspired by "${initialProjectParam}".`
+      : '',
+  });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'submitting' | 'demo-validated' | 'sent' | 'error'>('idle');
   const submittingRef = useRef(false);
@@ -96,9 +111,9 @@ export function ContactPage() {
     }
   };
 
-  const whatsappHref = SITE_CONFIG.contact.whatsappNumber
-    ? `https://wa.me/${SITE_CONFIG.contact.whatsappNumber.replace(/\D/g, '')}`
-    : '#enquiry-form';
+  const whatsappHref = getWhatsAppUrl(
+    values.service ? `Hello ARADHANA INTERIOR, I would like to enquire about ${values.service}.` : undefined
+  );
 
   return (
     <>
@@ -146,19 +161,25 @@ export function ContactPage() {
               </div>
 
               <div className="border-t border-silver/60 pt-5">
-                <a
-                  href={whatsappHref}
-                  target={SITE_CONFIG.contact.whatsappNumber ? '_blank' : undefined}
-                  rel={SITE_CONFIG.contact.whatsappNumber ? 'noopener noreferrer' : undefined}
-                  className="inline-flex w-full items-center justify-center gap-2.5 border border-gold bg-ivory px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:bg-gold hover:text-ivory"
-                >
-                  <MessageSquare className="h-4 w-4 text-gold-dark" aria-hidden="true" />
-                  <span>
-                    {SITE_CONFIG.contact.whatsappNumber
-                      ? 'Chat on WhatsApp'
-                      : 'WhatsApp Enquiry (Placeholder)'}
-                  </span>
-                </a>
+                {whatsappHref ? (
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2.5 border border-gold bg-ivory px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:bg-gold hover:text-ivory"
+                  >
+                    <MessageSquare className="h-4 w-4 text-gold-dark" aria-hidden="true" />
+                    <span>Chat on WhatsApp</span>
+                  </a>
+                ) : (
+                  <p className="border border-silver/60 bg-ivory px-4 py-3 text-xs leading-relaxed text-charcoal/70">
+                    WhatsApp quick-chat is disabled in this demo build until{' '}
+                    <code className="text-[11px] font-semibold text-charcoal">
+                      VITE_WHATSAPP_NUMBER
+                    </code>{' '}
+                    is configured.
+                  </p>
+                )}
               </div>
             </div>
 
