@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /projects/
 
+# Conceptual project detail pages (/projects/:slug) are intentionally crawlable
+# so search engines can read their page-level <meta name="robots" content="noindex, follow"> directive.
+# Update the Sitemap URL below once your Vercel or custom production domain is active.
 Sitemap: https://aradhana-interior-demo.vercel.app/sitemap.xml

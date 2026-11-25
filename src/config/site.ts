@@ -1,9 +1,13 @@
 /**
  * Centralized production & editable contact configuration.
- * Reads Vite environment variables when provided, falling back to safe demo placeholders.
+ * Reads Vite environment variables when provided, falling back to safe demo placeholders
+ * or the active runtime origin for canonical URLs when VITE_SITE_URL is unset.
  */
+const envSiteUrl = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '');
+const runtimeOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+
 export const SITE_CONFIG = {
-  siteUrl: (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') || 'https://aradhana-interior-demo.vercel.app',
+  siteUrl: envSiteUrl || runtimeOrigin,
   contact: {
     phone: (import.meta.env.VITE_CONTACT_PHONE as string | undefined) || '+91 [Studio Phone Placeholder]',
     whatsappNumber: (import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined) || '',
